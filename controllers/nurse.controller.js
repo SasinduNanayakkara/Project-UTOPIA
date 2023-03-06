@@ -3,11 +3,10 @@ const bcryptjs = require('bcryptjs');
 
 const registerNurse = async (req, res) => {
     const { first_name, last_name, email, username, password, role, hospitalID, ward, timeSlot} = req.body;
-    
     try {
         const salt = await bcryptjs.genSalt(5);
         const encryptedPassword = await bcryptjs.hash(password, salt);
-        const userExist = await User.findOne({username: username});
+        const userExist = await Nurse.findOne({username: username});
         if (userExist) {
             return res.status(400).send('User already exists');
         }

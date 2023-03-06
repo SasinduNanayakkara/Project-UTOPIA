@@ -44,11 +44,14 @@ const getInventory = async (req, res) => {
 
 const inCreaseInventory = async (req, res) => {
     const id = req.params.id;
-    const { quantity} = req.body;
+    const { qty} = req.body;
     try {
-        const updatedInventory = await Inventory.findByIdAndUpdate(id, {quantity: quantity});
-        if (updatedInventory) {
-            res.status(200).send(updatedInventory);
+        const inventory = await Inventory.findById(id);
+        if (inventory) {
+            const updatedInventory = await Inventory.findByIdAndUpdate(id, {quantity: (inventory.quantity + qty)});
+            if (updatedInventory) {
+                res.status(200).send(updatedInventory);
+            }
         }
     }
     catch (err) {
@@ -56,12 +59,13 @@ const inCreaseInventory = async (req, res) => {
     }
 }
 
-const deCreaseInventory = async (req, res) => {
+const decreaseInventory = async (req, res) => {
     const id = req.params.id;
+    const { qty} = req.body;
     try {
         const inventory = await Inventory.findById(id);
         if (inventory) {
-            const updatedInventory = await Inventory.findByIdAndUpdate(id, {quantity: inventory.quantity - 1});
+            const updatedInventory = await Inventory.findByIdAndUpdate(id, {quantity: inventory.quantity - qty});
             if (updatedInventory) {
                 res.status(200).send(updatedInventory);
             }
@@ -85,4 +89,4 @@ const deleteInventory = async (req, res) => {
     }
 }
 
-module.exports = {registerInventory, getInventories, getInventory, inCreaseInventory, deCreaseInventory, deleteInventory}
+module.exports = {registerInventory, getInventories, getInventory, inCreaseInventory, decreaseInventory, deleteInventory}
