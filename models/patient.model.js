@@ -20,11 +20,13 @@ const PatientSchema = new Schema({
     },
     status: {
         type: String,
-        enum: ['admitted', 'discharged', 'dead', 'transferred', 'missing']
+        enum: ['admitted', 'discharged', 'dead', 'transferred', 'missing'],
+        default: 'admitted'
     },
     admit_date: {
         type: Date,
         required: true,
+        default: Date.now
     },
     discharge_date: {
         type: Date,
