@@ -1,22 +1,32 @@
 const Nurse = require('../models/nurse.model');
+const bcryptjs = require('bcryptjs');
 
 const registerNurse = async (req, res) => {
     const { first_name, last_name, email, username, password, role, hospitalID, ward, timeSlot} = req.body;
-    const nurse = new Nurse({
-        first_name,
-        last_name,
-        email,
-        username,
-        password,
-        role,
-        hospitalID,
-        ward,
-        timeSlot
-    });
+    
     try {
-        const savedNurse = await nurse.save();
-        if (savedNurse) {
-            res.status(201).send(savedNurse);
+        const salt = await bcryptjs.genSalt(5);
+        const encryptedPassword = await bcryptjs.hash(password, salt);
+        const userExist = await User.findOne({username: username});
+        if (userExist) {
+            return res.status(400).send('User already exists');
+        }
+        else {
+            const nurse = new Nurse({
+                first_name,
+                last_name,
+                email,
+                username,
+                password: encryptedPassword,
+                role,
+                hospitalID,
+                ward,
+                timeSlot
+            });
+            const savedNurse = await nurse.save();
+            if (savedNurse) {
+                res.status(201).send(savedNurse);
+            }
         }
     }
     catch (err) {

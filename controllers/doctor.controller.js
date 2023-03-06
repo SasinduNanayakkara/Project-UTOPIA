@@ -1,29 +1,34 @@
+const bcryptjs = require('bcryptjs');
 const User = require('../models/doctor.model');
 
 const registerDoctor = async (req, res) => {
 
     const { first_name, last_name, email, username, password, role, specialization, hospitalID, NIC} = req.body;
-    const userExist = await User.findOne({email: email});
-    if (userExist) {
-        return res.status(400).send('User already exists');
-    }
     try {
-        const user = new User({
-            first_name,
-            last_name,
-            email,
-            username,
-            password,
-            role,
-            specialization,
-            hospitalID,
-            NIC
-        });
-        const savedUser =  await user.save();
-        if (savedUser) {
-            res.status(201).send(savedUser);
+        const salt = await bcryptjs.genSalt(5);
+        const encryptedPassword = await bcryptjs.hash(password, salt);
+        const userExist = await User.findOne({username: username});
+        if (userExist) {
+            return res.status(400).send('User already exists');
         }
-    }
+        else {
+            const user = new User({
+                first_name,
+                last_name,
+                email,
+                username,
+                password: encryptedPassword,
+                role,
+                specialization,
+                hospitalID,
+                NIC
+            });
+            const savedUser =  await user.save();
+            if (savedUser) {
+                res.status(201).send(savedUser);
+            }
+        }
+        }
     catch (err) {
         res.status(500).send(err);
     }
