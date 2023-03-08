@@ -1,34 +1,38 @@
 const bcryptjs = require('bcryptjs');
-const User = require('../models/doctor.model');
+const Doctor = require('../models/doctor.model');
 
 const registerDoctor = async (req, res) => {
 
-    const { first_name, last_name, email, username, password, role, specialization, hospitalID, NIC} = req.body;
+    const { first_name, last_name, email, username, password, specialization, hospitalID, NIC} = req.body;
     try {
         const salt = await bcryptjs.genSalt(5);
         const encryptedPassword = await bcryptjs.hash(password, salt);
-        const userExist = await User.findOne({username: username});
+        console.log("password: ", encryptedPassword);
+        const userExist = await Doctor.findOne({username: username});
         if (userExist) {
             return res.status(400).send('User already exists');
+            console.log("User already exists");
         }
         else {
-            const user = new User({
+            console.log("ok");
+            const doctor = new Doctor({
                 first_name,
                 last_name,
                 email,
                 username,
                 password: encryptedPassword,
-                role,
                 specialization,
                 hospitalID,
                 NIC
             });
-            const savedUser =  await user.save();
+            console.log("doctor: ", doctor);
+            const savedUser =  await doctor.save();
+        console.log("savedUser: ", savedUser);
             if (savedUser) {
                 res.status(201).send(savedUser);
             }
         }
-        }
+    }
     catch (err) {
         res.status(500).send(err);
     }
@@ -36,7 +40,7 @@ const registerDoctor = async (req, res) => {
 
 const getDoctors = async (req, res) => {
     try {
-        const doctors = await User.find();
+        const doctors = await Doctor.find();
         if (doctors) {
             res.status(200).send(doctors);
         }
@@ -49,7 +53,7 @@ const getDoctors = async (req, res) => {
 const getDoctor = async (req, res) => {
     const id = req.params.id;
     try {
-        const doctor = await User.findById(id);
+        const doctor = await Doctor.findById(id);
         if (doctor) {
             res.status(200).send(doctor);
         }
@@ -63,7 +67,7 @@ const updateDoctor = async (req, res) => {
     const id = req.params.id;
     const { first_name, last_name, email, username, password, role, specialization, hospitalID, NIC} = req.body;
     try {
-        const updatedDoctor = await User.findByIdAndUpdate(id, {first_name, last_name, email, username, password, role, specialization, hospitalID});
+        const updatedDoctor = await Doctor.findByIdAndUpdate(id, {first_name, last_name, email, username, password, role, specialization, hospitalID});
         if (updatedDoctor) {
             res.status(200).send(updatedDoctor);
         }
@@ -76,7 +80,7 @@ const updateDoctor = async (req, res) => {
 const deleteDoctor = async (req, res) => {
     const id = req.params.id;
     try {
-        const deletedDoctor = await User.findByIdAndDelete(id);
+        const deletedDoctor = await Doctor.findByIdAndDelete(id);
         if (deletedDoctor) {
             res.status(200).send(deletedDoctor);
         }
