@@ -43,6 +43,19 @@ const getWard = async (req, res) => {
     }
 }
 
+const getWardByHospitalID = async (req, res) => {
+    const hospitalID = req.params.id;
+    try {
+        const ward = await Ward.find({hospitalID : hospitalID});
+        if (ward) {
+            res.status(200).send(ward);
+        }
+    }
+    catch (err) {
+        res.status(500).send(err);
+    }
+}
+
 const updateWard = async (req, res) => {
     const id = req.params.id;
     const { name, hospitalID, no_of_beds} = req.body;
@@ -70,4 +83,4 @@ const deleteWard = async (req, res) => {
     }
 }
 
-module.exports = {registerWard, getWards, getWard, updateWard, deleteWard}
+module.exports = {registerWard, getWards, getWard, updateWard, deleteWard, getWardByHospitalID}
