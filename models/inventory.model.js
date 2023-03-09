@@ -4,7 +4,16 @@ const Schema = mongoose.Schema;
 const InventorySchema = new Schema({
     serial_number: {
         type: String,
+        required: false,
+    },
+    name: {
+        type: String,
+        required: true
+    },
+    type: {
+        type: String,
         required: true,
+        enum: ['drugs', 'inventory', 'surgical']    
     },
     quantity: {
         type: Number,

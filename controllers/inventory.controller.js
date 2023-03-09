@@ -1,9 +1,11 @@
 const Inventory = require('../models/inventory.model');
 
 const registerInventory = async (req, res) => {
-    const { serial_number, quantity} = req.body;
+    const { serial_number,name, type, quantity} = req.body;
     const inventory = new Inventory({
         serial_number,
+        name,
+        type,
         quantity,
     });
     try {
@@ -38,6 +40,19 @@ const getInventory = async (req, res) => {
         }
     }
     catch (err) {
+        res.status(500).send(err);
+    }
+}
+
+const getInventoryByType = async (req,res) =>{
+    const type = req.params.type;
+    try {
+        const inventories = await Inventory.find({type : type});
+        if (inventories) {
+            res.status(200).send(inventories);
+        }
+    }
+    catch(err) {
         res.status(500).send(err);
     }
 }
@@ -89,4 +104,4 @@ const deleteInventory = async (req, res) => {
     }
 }
 
-module.exports = {registerInventory, getInventories, getInventory, inCreaseInventory, decreaseInventory, deleteInventory}
+module.exports = {registerInventory, getInventories, getInventory, getInventoryByType, inCreaseInventory, decreaseInventory, deleteInventory}
