@@ -16,7 +16,8 @@ const PatientSchema = new Schema({
     },
     gender: {
         type: String,
-        enum: ['male', 'female']
+        enum: ['male', 'female'],
+        default: "male",
     },
     pulse: {
         type: String,
