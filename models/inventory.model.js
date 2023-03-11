@@ -19,6 +19,10 @@ const InventorySchema = new Schema({
         type: Number,
         required: true,
     },
+    ward: {
+        type: Schema.Types.ObjectId,
+        ref: 'Ward'
+    },
 
 }, {timestamps: true});
 
