@@ -1,12 +1,13 @@
 const Inventory = require('../models/inventory.model');
 
 const registerInventory = async (req, res) => {
-    const { serial_number,name, type, quantity} = req.body;
+    const { serial_number,name, type, quantity, ward} = req.body;
     const inventory = new Inventory({
         serial_number,
         name,
         type,
         quantity,
+        ward,
     });
     try {
         const savedInventory = await inventory.save();
@@ -32,11 +33,11 @@ const getInventories = async (req, res) => {
 }
 
 const getInventory = async (req, res) => {
-    const id = req.params.id;
+    const id = req.params.id;   
     try {
         const inventory = await Inventory.findById(id);
         if (inventory) {
-            res.status(200).send(inventory);
+            res.status(200).send(inventory);   
         }
     }
     catch (err) {
@@ -44,10 +45,23 @@ const getInventory = async (req, res) => {
     }
 }
 
-const getInventoryByType = async (req,res) =>{
-    const type = req.params.type;
+const getMedicineByWard = async (req,res) =>{
+    const id = req.params.id;
     try {
-        const inventories = await Inventory.find({type : type});
+        const inventories = await Inventory.find({type : 'drugs', ward: id});
+        if (inventories) {
+            res.status(200).send(inventories);
+        }
+    }
+    catch(err) {
+        res.status(500).send(err);
+    }
+}
+
+const getInventoryByWard = async (req,res) =>{
+    const id = req.params.id;
+    try {
+        const inventories = await Inventory.find({type : 'inventory', ward: id});
         if (inventories) {
             res.status(200).send(inventories);
         }
@@ -104,4 +118,4 @@ const deleteInventory = async (req, res) => {
     }
 }
 
-module.exports = {registerInventory, getInventories, getInventory, getInventoryByType, inCreaseInventory, decreaseInventory, deleteInventory}
+module.exports = {registerInventory, getInventories, getInventory, getMedicineByWard, inCreaseInventory, decreaseInventory, deleteInventory, getInventoryByWard}

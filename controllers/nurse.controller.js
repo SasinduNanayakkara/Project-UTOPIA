@@ -59,6 +59,19 @@ const getNurse = async (req, res) => {
     }
 }
 
+const getNursesByWard = async (req, res) => {
+    const id = req.params.id;
+    try {
+        const response = await Nurse.find({ward: id});
+        if (response) {
+            res.status(200).send(response);
+        }
+    }
+    catch (err) {
+        res.status(500).send(err);
+    }
+}
+
 const updateNurse = async (req, res) => {
     const id = req.params.id;
     const { first_name, last_name, email, username, password, role, hospitalID, ward, timeSlot} = req.body;
@@ -86,4 +99,4 @@ const deleteNurse = async (req, res) => {
     }
 }
 
-module.exports = {registerNurse, getNurses, getNurse, updateNurse, deleteNurse}
+module.exports = {registerNurse, getNurses, getNurse, updateNurse, deleteNurse, getNursesByWard}
