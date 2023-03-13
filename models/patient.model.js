@@ -80,8 +80,11 @@ const PatientSchema = new Schema({
     ward: {
         type: Schema.Types.ObjectId,
         ref: 'Ward',
-        required: false,
     },
+    hospital: {
+        type: Schema.Types.ObjectId,
+        ref: 'Hospital',
+    }
 
 }, {timestamps: true});
 
