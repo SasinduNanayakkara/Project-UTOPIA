@@ -50,6 +50,19 @@ const getDoctors = async (req, res) => {
     }
 }
 
+const getDoctorsByHospital = async (req, res) => {
+    const id = req.params.id;
+    try {
+        const response = await Doctor.find({hospitalID: id});
+        if (response) {
+            res.status(200).send(response);
+        }
+    }
+    catch (err) {
+        res.status(500).send(err);
+    }
+}
+
 const getDoctor = async (req, res) => {
     const id = req.params.id;
     try {
@@ -90,4 +103,4 @@ const deleteDoctor = async (req, res) => {
     }
 }
 
-module.exports = {registerDoctor, getDoctors, getDoctor, updateDoctor, deleteDoctor}
+module.exports = {registerDoctor, getDoctors, getDoctor, updateDoctor, deleteDoctor, getDoctorsByHospital}
