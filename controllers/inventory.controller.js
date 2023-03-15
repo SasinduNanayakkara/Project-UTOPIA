@@ -71,6 +71,19 @@ const getInventoryByWard = async (req,res) =>{
     }
 }
 
+const getSurgicalInventoryByWard = async (req,res) =>{
+    const id = req.params.id;
+    try {
+        const inventories = await Inventory.find({type : 'surgical', ward: id});
+        if (inventories) {
+            res.status(200).send(inventories);
+        }
+    }
+    catch(err) {
+        res.status(500).send(err);
+    }
+}
+
 const inCreaseInventory = async (req, res) => {
     const id = req.params.id;
     const { qty} = req.body;
@@ -118,4 +131,4 @@ const deleteInventory = async (req, res) => {
     }
 }
 
-module.exports = {registerInventory, getInventories, getInventory, getMedicineByWard, inCreaseInventory, decreaseInventory, deleteInventory, getInventoryByWard}
+module.exports = {registerInventory, getInventories, getInventory, getMedicineByWard, inCreaseInventory, decreaseInventory, deleteInventory, getInventoryByWard, getSurgicalInventoryByWard}
