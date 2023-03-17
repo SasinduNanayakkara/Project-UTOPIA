@@ -36,6 +36,7 @@ const getWardPatients = async (req, res) => {
     const id = req.params.id;
     try {
         const ward = await WardPatients.find({hospitalId: id})
+        .populate('wardId', 'name')
         .populate('patientId');
         if (ward) {
             res.status(200).json(ward);
