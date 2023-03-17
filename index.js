@@ -10,6 +10,7 @@ const patientRoutes = require('./routes/patient.routes');
 const wardRoutes = require('./routes/ward.routes');
 const inventory = require('./routes/inventory.routes');
 const adminRoutes = require('./routes/admin.routes');
+const wardPatients = require('./routes/wardPatient.routes');
 
 const app = express();
 app.use(cors());
@@ -22,14 +23,25 @@ app.get('/', (req, res) => res.send('Hello World!'));
 dbConnection();
 
 // Define routes
-app.use('/.netlify/functions/api/doctor', doctorRoutes);
-app.use('/.netlify/functions/api/hospital', hospitalRoutes);
-app.use('/.netlify/functions/api/nurse', nurseRoutes);
-app.use('/.netlify/functions/api/login', loginRoutes);
-app.use('/.netlify/functions/api/patient', patientRoutes);
-app.use('/.netlify/functions/api/ward', wardRoutes);
-app.use('/.netlify/functions/api/inventory', inventory);
-app.use('/.netlify/functions/api/admin', adminRoutes);
+// app.use('/.netlify/functions/api/doctor', doctorRoutes);
+// app.use('/.netlify/functions/api/hospital', hospitalRoutes);
+// app.use('/.netlify/functions/api/nurse', nurseRoutes);
+// app.use('/.netlify/functions/api/login', loginRoutes);
+// app.use('/.netlify/functions/api/patient', patientRoutes);
+// app.use('/.netlify/functions/api/ward', wardRoutes);
+// app.use('/.netlify/functions/api/inventory', inventory);
+// app.use('/.netlify/functions/api/admin', adminRoutes);
+// app.use('/.netlify/functions/api/wardPatient', wardPatients);
+
+app.use('/api/doctor', doctorRoutes);
+app.use('/api/hospital', hospitalRoutes);
+app.use('/api/nurse', nurseRoutes);
+app.use('/api/login', loginRoutes);
+app.use('/api/patient', patientRoutes);
+app.use('/api/ward', wardRoutes);
+app.use('/api/inventory', inventory);
+app.use('/api/admin', adminRoutes);
+app.use('/api/wardPatient', wardPatients);
 
 const PORT = process.env.PORT || 5000;
 
