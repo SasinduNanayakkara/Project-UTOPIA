@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 const InventorySchema = new Schema({
     serial_number: {
         type: String,
-        required: false,
+        required: true,
+        unique: true
     },
     name: {
         type: String,
