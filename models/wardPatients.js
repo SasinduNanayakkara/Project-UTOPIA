@@ -4,11 +4,11 @@ const Schema = mongoose.Schema;
 const wardPatientsSchema = new Schema({
     wardId: {
         type: Schema.Types.ObjectId,
-        ref: 'Ward'
+        ref: 'ward'
     },
     hospitalId: {
         type: Schema.Types.ObjectId,
-        ref: 'Hospital'
+        ref: 'hospital'
     },
     patientId: [{
         type: Schema.Types.ObjectId,

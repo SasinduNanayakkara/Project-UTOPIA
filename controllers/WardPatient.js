@@ -34,15 +34,18 @@ const updateWardPatients = async (req, res) => {
 
 const getWardPatients = async (req, res) => {
     const id = req.params.id;
+    console.log("hospital id", id);
     try {
         const ward = await WardPatients.find({hospitalId: id})
-        .populate('wardId', 'name')
+        .populate('wardId', 'name no_of_beds')
         .populate('patientId');
         if (ward) {
+            console.log("success");
             res.status(200).json(ward);
         }
     }
     catch (error) {
+        console.log("error", error.message);
         res.status(500).json(error.message);
     }
 }
