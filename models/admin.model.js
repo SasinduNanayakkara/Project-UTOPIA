@@ -17,6 +17,11 @@ const AdminSchema = new Schema({
     role: {
         type: String,
         default: "admin"
+    },
+    hospitalID: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Hospital',
+        required: false,
     }
 }, {timestamps: true});
 
