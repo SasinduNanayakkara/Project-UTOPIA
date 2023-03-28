@@ -37,7 +37,6 @@ const login = async (req, res) => {
         else if (isAdmin) {
             if (password === isAdmin.password) {
                 const token = await jwt.sign({_id: isAdmin._id}, process.env.TOKEN_SECRET);
-                console.log(token);
                  return res.header('auth-token', token).send({token: token, data: isAdmin});
             }
             else {

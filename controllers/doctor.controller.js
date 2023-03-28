@@ -7,14 +7,12 @@ const registerDoctor = async (req, res) => {
     try {
         const salt = await bcryptjs.genSalt(5);
         const encryptedPassword = await bcryptjs.hash(password, salt);
-        console.log("password: ", encryptedPassword);
         const userExist = await Doctor.findOne({username: username});
         if (userExist) {
             return res.status(400).send('User already exists');
             console.log("User already exists");
         }
         else {
-            console.log("ok");
             const doctor = new Doctor({
                 first_name,
                 last_name,
@@ -25,9 +23,7 @@ const registerDoctor = async (req, res) => {
                 hospitalID,
                 NIC
             });
-            console.log("doctor: ", doctor);
             const savedUser =  await doctor.save();
-        console.log("savedUser: ", savedUser);
             if (savedUser) {
                 res.status(201).send(savedUser);
             }
